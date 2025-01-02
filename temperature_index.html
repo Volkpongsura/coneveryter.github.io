@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0;
+      font-family: 'Sarabun', sans-serif;
+      background: linear-gradient(to right, #66ccff, #d4eeff, #d4eeff, #66ccff);
+      background-attachment: fixed;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 30px;
+      color: rgb(255, 81, 81);
+      -webkit-text-stroke: 1.5px black;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input, select, button {
+      margin-bottom: 15px;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      transition: 0.3s ease-in-out;
+    }
+
+    input:focus, select:focus, button:focus {
+      outline: none;
+      border-color: rgb(255, 81, 81);
+      box-shadow: 0 0 5px rgb(160, 35, 35);
+    }
+
+    button {
+      background-color: #1f1f1f;
+      color: rgb(255, 255, 255);
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: rgb(35, 231, 61);
+      color: black;
+      transform: scale(1.05);
+    }
+
+    .back-button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .back-button {
+      padding: 12px 18px;
+      font-size: 20px;
+      color: #000000;
+      background-color: rgb(255, 81, 81);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .back-button:hover {
+      background-color: rgb(160, 35, 35);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    #result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 20px;
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: 85%;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      input, select, button {
+        font-size: 14px;
+      }
+    }
+    
+    .material-symbols-outlined {
+    font-size: 30px;
+    vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Temperature Converter</h1>
+    <form id="tempForm">
+      <label for="amount">อุณหภูมิ</label>
+      <input type="number" id="amount" placeholder="ระบุอุณหภูมิ" required>
+
+      <label for="fromUnit">จากหน่วย</label>
+      <select id="fromUnit">
+        <option value="" selected disabled>เลือกหน่วย</option>
+        <option value="celsius">องศาเซลเซียส (°C)</option>
+        <option value="fahrenheit">องศาฟาเรนไฮต์ (°F)</option>
+        <option value="kelvin">เคลวิน (K)</option>
+      </select>
+
+      <label for="toUnit">เป็นหน่วย</label>
+      <select id="toUnit">
+        <option value="" selected disabled>เลือกหน่วย</option>
+        <option value="celsius">องศาเซลเซียส (°C)</option>
+        <option value="fahrenheit">องศาฟาเรนไฮต์ (°F)</option>
+        <option value="kelvin">เคลวิน (K)</option>
+      </select>
+
+      <button type="submit">คำนวณ</button>
+    </form>
+
+    <div id="result">
+      <h2>ผลลัพท์ : <span id="convertedTemp">0</span></h2>
+    </div>
+
+    <div class="back-button-container">
+        <button class="back-button" onclick="goBack()">
+          <span class="material-symbols-outlined">home</span></button>
+      </div>
+  </div>
+
+  <script>
+    document.getElementById('tempForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const amount = parseFloat(document.getElementById('amount').value);
+      const fromUnit = document.getElementById('fromUnit').value;
+      const toUnit = document.getElementById('toUnit').value;
+
+      if (isNaN(amount)) {
+        alert("Please enter a valid temperature.");
+        return;
+      }
+
+      convertTemperature(amount, fromUnit, toUnit);
+    });
+
+    async function convertTemperature(amount, fromUnit, toUnit) {
+      try {
+        // Load conversion data from conversionData.json
+        const response = await fetch('conversionData.json');
+        if (!response.ok) {
+          throw new Error('Failed to load conversion data');
+        }
+
+        const data = await response.json();
+
+        // Get the conversion factor from the JSON data
+        const conversionFactor = data.temperature[fromUnit][toUnit];
+
+        if (fromUnit === toUnit) {
+          document.getElementById('convertedTemp').textContent = `${amount} ${toUnit}`;
+          return;
+        }
+
+        if (conversionFactor === undefined) {
+          throw new Error('Invalid unit conversion');
+        }
+
+        // Calculate the converted temperature
+        let convertedAmount;
+
+        // For conversion, use the respective logic from JSON
+        if (fromUnit === 'celsius' && toUnit === 'fahrenheit') {
+          convertedAmount = (amount * conversionFactor) + 32;
+        } else if (fromUnit === 'fahrenheit' && toUnit === 'celsius') {
+          convertedAmount = (amount - 32) * conversionFactor;
+        } else if (fromUnit === 'celsius' && toUnit === 'kelvin') {
+          convertedAmount = amount + conversionFactor;
+        } else if (fromUnit === 'kelvin' && toUnit === 'celsius') {
+          convertedAmount = amount + conversionFactor;
+        } else if (fromUnit === 'fahrenheit' && toUnit === 'kelvin') {
+          convertedAmount = (amount - 32) * conversionFactor + 273.15;
+        } else if (fromUnit === 'kelvin' && toUnit === 'fahrenheit') {
+          convertedAmount = (amount - 273.15) * 9/5 + 32;
+        } else {
+          convertedAmount = amount + conversionFactor;
+        }
+
+        // Display result
+        const unitNames = {
+          "celsius": "°C",
+          "fahrenheit": "°F",
+          "kelvin": "K"
+        };
+
+        document.getElementById('convertedTemp').textContent = `${convertedAmount} ${unitNames[toUnit]}`;
+      } catch (error) {
+        console.error(error);
+        alert("Error converting temperature. Please try again.");
+      }
+    }
+
+    function goBack() {
+    window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

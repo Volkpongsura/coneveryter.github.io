@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConEveryter - Convert Everything</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0;
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(to right, #66ccff, #d4eeff, #d4eeff, #66ccff);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .charheader {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .char {
+            font-size: 70px;
+            font-weight: bold;
+            color: black;
+            -webkit-text-stroke: 1.5px rgb(255, 255, 255);
+            letter-spacing: 1px;
+        }
+
+        .char .E,
+        .char .y {
+            color: rgb(255, 65, 65);
+            font-size: 25px;
+            -webkit-text-stroke: 0.5px black;
+            margin: -12px;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-button {
+            background-color: #707070;
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+            padding: 20px 18px;
+            margin: 20px 0;
+            border-radius: 12px;
+            width: 260px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .menu-button:hover {
+            background-color: #000000;
+            color: rgb(255, 81, 81);
+            transform: scale(1.1);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-button:active {
+            transform: scale(1.05);
+            box-shadow: none;
+        }
+
+        .material-icons {
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-container {
+                width: 80%; /* ใช้ความกว้างตามหน้าจอ */
+            }
+
+            .menu-button {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+
+            .char {
+                font-size: 45px; /* ขนาดตัวอักษรเล็กลงสำหรับหน้าจอเล็ก */
+            }
+        }
+        .material-symbols-outlined {
+        font-size: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="charheader">
+        <p>
+            <span class="char">Con
+                <span class="E">E</span>
+                <span class="char">ver
+                <span class="y">y</span>
+                <span class="char">ter</span>
+        </p>
+    </div>
+
+    <div class="menu-container">
+        <button class="menu-button" onclick="window.location.href='length_index.html'">
+            <span class="material-symbols-outlined">straighten</span> แปลงหน่วยความยาว
+        </button>
+        <button class="menu-button" onclick="window.location.href='weight_index.html'">
+            <span class="material-symbols-outlined">scale</span> แปลงหน่วยน้ำหนัก
+        </button>
+        <button class="menu-button" onclick="window.location.href='area_index.html'">
+            <span class="material-symbols-outlined">crop_square</span> แปลงหน่วยพื้นที่
+        </button>
+        <button class="menu-button" onclick="window.location.href='speed_index.html'">
+            <span class="material-symbols-outlined">speed</span> แปลงหน่วยความเร็ว
+        </button>
+        <button class="menu-button" onclick="window.location.href='currency_index.html'">
+            <span class="material-symbols-outlined">currency_exchange</span> แปลงสกุลเงิน
+        </button>
+        <button class="menu-button" onclick="window.location.href='temperature_index.html'">
+            <span class="material-symbols-outlined">device_thermostat</span> แปลงอุณหภูมิ
+        </button>
+        <button class="menu-button" onclick="window.location.href='time_index.html'">
+            <span class="material-symbols-outlined">schedule</span> แปลงเวลา
+        </button>
+    </div>
+</body>
+</html>

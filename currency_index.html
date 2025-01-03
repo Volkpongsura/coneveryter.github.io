@@ -182,42 +182,42 @@
     </div>
 </div>
 
-  <script>
-    document.getElementById('currencyForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-  
-      const amount = document.getElementById('amount').value;
-      const fromCurrency = document.getElementById('fromCurrency').value;
-      const toCurrency = document.getElementById('toCurrency').value;
-  
-      if (amount === '' || isNaN(amount)) {
-        alert("Please enter a valid amount.");
-        return;
-      }
-  
-      convertCurrency(amount, fromCurrency, toCurrency);
-    });
-  
-    function convertCurrency(amount, fromCurrency, toCurrency) {
-      const apiKey = '693e0a0c865215eeb059a3f2';
-      const apiUrl = `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`;
-  
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          const exchangeRate = data.rates[toCurrency];
-          const convertedAmount = (amount * exchangeRate);
-          document.getElementById('convertedAmount').textContent = `${convertedAmount} ${toCurrency}`;
-        })
-        .catch(error => {
-          console.error("Error fetching exchange rates:", error);
-          alert("Sorry, something went wrong. Please try again later.");
-        });
+<script>
+  document.getElementById('currencyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const amount = document.getElementById('amount').value;
+    const fromCurrency = document.getElementById('fromCurrency').value;
+    const toCurrency = document.getElementById('toCurrency').value;
+
+    if (amount === '' || isNaN(amount)) {
+      alert("Please enter a valid amount.");
+      return;
     }
 
-    function goBack() {
+    convertCurrency(amount, fromCurrency, toCurrency);
+  });
+
+  function convertCurrency(amount, fromCurrency, toCurrency) {
+    const apiKey = '693e0a0c865215eeb059a3f2';
+    const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/${fromCurrency}`;
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        const exchangeRate = data.conversion_rates[toCurrency];
+        const convertedAmount = (amount * exchangeRate);
+        document.getElementById('convertedAmount').textContent = `${convertedAmount} ${toCurrency}`;
+      })
+      .catch(error => {
+        console.error("Error fetching exchange rates:", error);
+        alert("Sorry, something went wrong. Please try again later.");
+      });
+  }
+
+  function goBack() {
     window.location.href = 'index.html';
-    }
-  </script>
+  }
+</script>
 </body>
 </html>
